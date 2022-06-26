@@ -27,6 +27,13 @@ contract LW3Punks is ERC721Enumerable, Ownable {
         _baseTokenURI = baseURI;
     }
 
+    function mint() public payable onlyWhenNotPaused {
+        require(tokenIds < maxTokenIds, "Exceed maximum LW3Punks supply");
+        require(msg.value >= _price, "Ether sent is not correct");
+        tokenIds += 1;
+        _safeMint(msg.sender, tokenIds);
+    }
+
     function _baseURI() internal view virtual override returns (string memory) {
         return _baseTokenURI;
     }
